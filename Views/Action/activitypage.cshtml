@@ -1,0 +1,44 @@
+<h1>Dojo Activity Center</h1>
+<h5><a href="/home">Home</a><a href="/logout">Logout</a>
+<hr>
+
+<h3>@ViewBag.displayActivity.Title</h3>
+
+<p><b>Event Coordinator:</b> @ViewBag.displayActivity.User.FirstName @ViewBag.displayActivity.User.LastName</p>
+
+<p><b>Description:</b> @ViewBag.displayActivity.Description</p>
+
+<p><b>Participants:</b> </p>
+
+<ul>
+@foreach(var participant in @ViewBag.displayActivityGuests.Participants)
+{
+    <li>@participant.User.FirstName @participant.User.LastName</li>
+}
+</ul>
+@{
+    bool attending = false;
+
+    if(@ViewBag.displayActivityGuests.UserId == @ViewBag.UserId)
+    {
+    <a class="btn btn-warning btn-s" href="/delete/@ViewBag.displayActivityGuests.ActivityId">Delete</a>
+    }
+    else
+    {
+        foreach(var participant in @ViewBag.displayActivityGuests.Participants)
+        {
+            if(@participant.UserId == @ViewBag.UserId)
+            {
+            attending = true;
+            }
+        }
+        if(attending == true)
+        {
+            <a class="btn btn-primary btn-s" href="/leave/@ViewBag.displayActivityGuests.ActivityId">Leave</a>   
+        }
+        else
+        {
+            <a class="btn btn-primary btn-s" href="/join/@ViewBag.displayActivityGuests.ActivityId">Join</a>   
+        }
+    }
+                }
